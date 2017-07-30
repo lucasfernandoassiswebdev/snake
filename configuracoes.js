@@ -26,6 +26,8 @@ $(document).ready( function() {
 function startgame() {
 	blocoscol = [];
 	blocosl = []
+	tempo = 500;
+	
 	var array = document.querySelectorAll('.snakeCorpo, .snakeRabo, .snakeCabeca, .snakeComida');
 	
 	for (var i = 0; i < array.length; i++) {
@@ -66,8 +68,8 @@ function despause() {
 }
 
 function verificacomida(x,y) {
-		for (var i = 0; i < blocoscol.length; i++){
-			if (blocosl[i] == x && blocoscol[i] == y){
+		for (var i = 0; i < blocoscol.length; i++) {
+			if (blocosl[i] == x && blocoscol[i] == y) {
 				linhacomida = Math.floor((Math.random() * 13) + 1);
 				colunacomida = Math.floor((Math.random() * 20) + 1);
 			}
@@ -80,7 +82,6 @@ function nascecomida() {
     colunacomida = Math.floor((Math.random() * 20) + 1);
    
 	var array = document.querySelectorAll('.snakeCorpo, .snakeRabo, .snakeCabeca, .snakeComida');
-	console.log(array);
 	
 	verificacomida(linhacomida,colunacomida);
 };
@@ -99,7 +100,7 @@ function come() {
 	document.getElementById("pontos").innerHTML = "Pontos: " + (blocoscol.length - 3);
 	nascecomida();
 	
-	if(tempo > 100) {
+	if (tempo > 100) {
 		tempo -= 25;
 		clearInterval(interval);
 		interval = setInterval(anda, tempo);
@@ -109,9 +110,10 @@ function come() {
 function anda() {
 	var lrabo = blocosl[blocosl.length - 1];
 	var crabo = blocoscol[blocoscol.length - 1];
+	
 	document.querySelector('#tabela tr:nth-child(' + lrabo + ') td:nth-child(' +crabo + ')').className = '';
 	
-	for(var i = blocosl.length - 1; i >= 1; i--){
+	for (var i = blocosl.length - 1; i >= 1; i-- ) {
 		blocosl[i] = blocosl[i - 1];
 		blocoscol[i] = blocoscol[i - 1];
 		var className = i == blocosl.length - 1 ? "snakeRabo" : "snakeCorpo";
@@ -148,6 +150,7 @@ function anda() {
 	
 	if (blocosl[0] == linhacomida && blocoscol[0] == colunacomida)
 		come();
+	
 	for (i = 1; i <= blocoscol.length - 1; i++) {
 		if (blocosl[0] == blocosl[i] && blocoscol[0] == blocoscol[i]) 
 			morre();
@@ -157,7 +160,7 @@ function anda() {
 window.onkeydown = function(e) {
 	var key = e.keyCode ? e.keyCode : e.which;
     if (key == 39) {
-		if(direcaoatual !== 'E'){
+		if(direcaoatual !== 'E') {
 			direcaoatual = 'D'
 		}
 	} else if (key == 37) {
