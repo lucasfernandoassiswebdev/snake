@@ -5,7 +5,7 @@ var linhacomida;
 var colunacomida;
 var direcaoatual;
 var interval;
-
+/*addagadgdaad*/
 $(document).ready( function() {
 	document.querySelector("#tabela").innerHTML = new Array(14).join("<tr>" + new Array(21).join("<td></td>") + "</tr>");
 		$('#botao').click( function() {
