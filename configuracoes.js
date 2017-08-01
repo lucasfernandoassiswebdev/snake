@@ -1,10 +1,11 @@
-var tempo = 500;
+var tempo;
 var blocosl = [];
 var blocoscol = [];
 var linhacomida;
 var colunacomida;
 var direcaoatual;
 var interval;
+var arraydirecoes = []
 
 $(document).ready( function() {
 	document.querySelector("#tabela").innerHTML = new Array(14).join("<tr>" + new Array(21).join("<td></td>") + "</tr>");
@@ -26,7 +27,7 @@ $(document).ready( function() {
 function startgame() {
 	blocoscol = [];
 	blocosl = []
-	tempo = 500;
+	tempo = 300;
 	
 	var array = document.querySelectorAll('.snakeCorpo, .snakeRabo, .snakeCabeca, .snakeComida');
 	
@@ -36,7 +37,7 @@ function startgame() {
 	
 	blocosl[0] = 1;
     blocoscol[0] = 3;
-	direcaoatual = 'D';
+	arraydirecoes.push('D');
 	blocosl.push(blocosl[0]);
 	blocoscol.push(blocoscol[0] - 1);
 	blocosl.push(blocosl[0]);
@@ -114,11 +115,14 @@ function anda() {
 	document.querySelector('#tabela tr:nth-child(' + lrabo + ') td:nth-child(' + crabo + ')').className = '';
 	
 	for (var i = blocosl.length - 1; i >= 1; i-- ) {
+		
 		blocosl[i] = blocosl[i - 1];
 		blocoscol[i] = blocoscol[i - 1];
 		var className = i == blocosl.length - 1 ? "snakeRabo" : "snakeCorpo";
 		document.querySelector('#tabela tr:nth-child(' + blocosl[i] + ') td:nth-child(' + blocoscol[i] + ')').className = className;
 	}
+	
+	direcaoatual = arraydirecoes[arraydirecoes.length - 1];
 	
 	if (direcaoatual == 'D') {
 		if (blocoscol[0] >= 20) {
@@ -146,12 +150,17 @@ function anda() {
 		}
 	}
 	
+	if (arraydirecoes.length > 1){
+		arraydirecoes[arraydirecoes.length - 2] = arraydirecoes[arraydirecoes.length - 1]
+		arraydirecoes.splice(arraydirecoes.length - 1, 1);
+	}
+	
 	document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + blocoscol[0] + ')').className = 'snakeCabeca';
 	
 	if (blocosl[0] == linhacomida && blocoscol[0] == colunacomida)
 		come();
 	
-	for (i = 1; i <= blocoscol.length - 1; i++) {
+	for (i = 1; i < blocoscol.length; i++) {
 		if (blocosl[0] == blocosl[i] && blocoscol[0] == blocoscol[i]) 
 			morre();
 	}
@@ -160,24 +169,20 @@ function anda() {
 window.onkeydown = function(e) {
 	var key = e.keyCode ? e.keyCode : e.which;
 	if (key == 39) {
-		var batata = blocoscol[0] + 1
-		if (direcaoatual !== 'E' && document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + batata + ')').className == '' || document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + batata + ')').className == 'snakeComida') {
-			direcaoatual = 'D'
+		if (direcaoatual !== 'E') {
+			arraydirecoes.push('D');
 		}
 	} else if (key == 37) {
-		var batata = blocoscol[0] - 1
-		if (direcaoatual !== 'D' && document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + batata + ')').className == '' || document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + batata + ')').className == 'snakeComida') {
-			direcaoatual = 'E';
+		if (direcaoatual !== 'D') {
+			arraydirecoes.push('E');
 		}
 	} else if (key == 38) {
-		var batata = blocosl[0] - 1;
-		if (direcaoatual !== 'B'  && document.querySelector('#tabela tr:nth-child(' + batata + ') td:nth-child(' + blocoscol[0] + ')').className == '' || document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + batata + ')').className == 'snakeComida') {
-			direcaoatual = 'C';
+		if (direcaoatual !== 'B') {
+			arraydirecoes.push('C');
 		}
 	} else if (key == 40) {
-		var batata = blocosl[0] + 1;
-		if (direcaoatual !== 'C' && document.querySelector('#tabela tr:nth-child(' + batata + ') td:nth-child(' + blocoscol[0] + ')').className == '' || document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + batata + ')').className == 'snakeComida') {
-			direcaoatual = 'B';
+		if (direcaoatual !== 'C') {
+			arraydirecoes.push('B');
 		}
 	}
 }
