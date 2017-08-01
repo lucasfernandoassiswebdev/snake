@@ -161,24 +161,22 @@ window.onkeydown = function(e) {
 	var key = e.keyCode ? e.keyCode : e.which;
 	if (key == 39) {
 		var batata = blocoscol[0] + 1
-		if (direcaoatual !== 'E' && document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + batata + ')').className == '') {
+		if (direcaoatual !== 'E' && document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + batata + ')').className == '' || document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + batata + ')').className == 'snakeComida') {
 			direcaoatual = 'D'
-		}else{
-			direcaoatual = 'E'
 		}
 	} else if (key == 37) {
 		var batata = blocoscol[0] - 1
-		if (direcaoatual !== 'D' && document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + batata + ')').className == '') {
+		if (direcaoatual !== 'D' && document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + batata + ')').className == '' || document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + batata + ')').className == 'snakeComida') {
 			direcaoatual = 'E';
 		}
 	} else if (key == 38) {
 		var batata = blocosl[0] - 1;
-		if (direcaoatual !== 'B'  && document.querySelector('#tabela tr:nth-child(' + batata + ') td:nth-child(' + blocoscol[0] + ')').className == '') {
+		if (direcaoatual !== 'B'  && document.querySelector('#tabela tr:nth-child(' + batata + ') td:nth-child(' + blocoscol[0] + ')').className == '' || document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + batata + ')').className == 'snakeComida') {
 			direcaoatual = 'C';
 		}
 	} else if (key == 40) {
 		var batata = blocosl[0] + 1;
-		if (direcaoatual !== 'C' && document.querySelector('#tabela tr:nth-child(' + batata + ') td:nth-child(' + blocoscol[0] + ')').className == '') {
+		if (direcaoatual !== 'C' && document.querySelector('#tabela tr:nth-child(' + batata + ') td:nth-child(' + blocoscol[0] + ')').className == '' || document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + batata + ')').className == 'snakeComida') {
 			direcaoatual = 'B';
 		}
 	}
