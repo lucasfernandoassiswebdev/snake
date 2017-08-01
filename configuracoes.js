@@ -1,15 +1,15 @@
-var tempo;
-var blocosl = [];
+var tempo;//variável que controla o tempo que a snake demora pra andar
+var blocosl = [];//2 arrays que simulam um X e Y num plano cartesiano para representar as posições da snake
 var blocoscol = [];
-var linhacomida;
+var linhacomida;//2 variáveis que simulam um X e Y num plano cartesiano também, porém estas são usadas para a comida
 var colunacomida;
 var direcaoatual;
 var interval;
 var arraydirecoes = []
 
 $(document).ready( function() {
-	document.querySelector("#tabela").innerHTML = new Array(14).join("<tr>" + new Array(21).join("<td></td>") + "</tr>");
-		$('#botao').click( function() {
+	document.querySelector("#tabela").innerHTML = new Array(14).join("<tr>" + new Array(21).join("<td></td>") + "</tr>");//criando a tabela no html com 13 linhas e 20 colunas
+		$('#botao').click( function() {//mudando o estado do jogo e iniciando funções
 			if ($('#botao').html() == "Start") {
 				startgame();
 			} else if ($('#botao').html() == "Pause") {
@@ -25,50 +25,50 @@ $(document).ready( function() {
 });
 			
 function startgame() {
-	blocoscol = [];
+	blocoscol = [];//apagando a snake pra não bugar quando der restart
 	blocosl = []
-	tempo = 300;
-	
+	tempo = 300;//tempo de 300 milisegundos pra andar
+	//gerando um array com todas as casas coloridas da table
 	var array = document.querySelectorAll('.snakeCorpo, .snakeRabo, .snakeCabeca, .snakeComida');
-	
+	//apagando essas casas
 	for (var i = 0; i < array.length; i++) {
 			array[i].className = '';
 	}	
 	
-	blocosl[0] = 1;
+	blocosl[0] = 1;//definindo posição da cabeça
     blocoscol[0] = 3;
-	arraydirecoes.push('D');
-	blocosl.push(blocosl[0]);
+	arraydirecoes.push('D');//direção inicial
+	blocosl.push(blocosl[0]);//blocos atrás da cabeça
 	blocoscol.push(blocoscol[0] - 1);
 	blocosl.push(blocosl[0]);
 	blocoscol.push(blocoscol[0] - 2);	
 	
-	nascecomida();
+	nascecomida();//fazendo aparecer o primeiro boloco de comida
 	
 	document.getElementById("botao").innerHTML = "Pause";
 	document.getElementById("status").innerHTML = "Status: jogando";
 	
-	document.querySelector('#tabela tr:nth-child(1) td:nth-child(1)').className = "snakeRabo";
+	document.querySelector('#tabela tr:nth-child(1) td:nth-child(1)').className = "snakeRabo";//pintando a snake
 	document.querySelector('#tabela tr:nth-child(1) td:nth-child(2)').className = "snakeCorpo";
 	document.querySelector('#tabela tr:nth-child(1) td:nth-child(3)').className = "snakeCabeca";
 	
-	interval = setInterval(anda, tempo);
+	interval = setInterval(anda, tempo);//começando o jogo
 };
 			
-function pausegame() {
+function pausegame() {//função que pausa o jogo
 	document.getElementById("botao").innerHTML = "Voltar";
 	document.getElementById("status").innerHTML = "Status: pausado";
 	clearInterval(interval);
 }
 			
-function despause() {
+function despause() {//despausando
 	document.getElementById("botao").innerHTML = "Pause";
 	document.getElementById("status").innerHTML = "Status: jogando";
 	clearInterval(interval);
 	interval = setInterval(anda, tempo);
 }
 
-function verificacomida(x,y) {
+function verificacomida(x,y) {//não deixa a comida nascer encima da snake
 		for (var i = 0; i < blocoscol.length; i++) {
 			if (blocosl[i] == x && blocoscol[i] == y) {
 				linhacomida = Math.floor((Math.random() * 13) + 1);
@@ -78,7 +78,7 @@ function verificacomida(x,y) {
 		document.querySelector('#tabela tr:nth-child(' + linhacomida + ') td:nth-child(' + colunacomida + ')').className = 'snakeComida';
 };
 		
-function nascecomida() {
+function nascecomida() {//faz a comida nascer
     linhacomida = Math.floor((Math.random() * 13) + 1);
     colunacomida = Math.floor((Math.random() * 20) + 1);
    
@@ -94,7 +94,7 @@ function morre() {
 	document.querySelector('#tabela tr:nth-child(' + linhacomida + ') td:nth-child(' + colunacomida + ')').className = '';
 };
 			
-function come() {
+function come() {//come um bloco, faz outro nascer e reduz o tempo que a snake demora pra andar
 	blocosl.push(blocosl[blocosl.length - 1]);
 	blocoscol.push(blocoscol[blocoscol.length - 1]);
 	
@@ -108,23 +108,22 @@ function come() {
 	}
 }
 
-function anda() {
+function anda() {//função que faz a snake se movimentar
 	var lrabo = blocosl[blocosl.length - 1];
 	var crabo = blocoscol[blocoscol.length - 1];
 	
-	document.querySelector('#tabela tr:nth-child(' + lrabo + ') td:nth-child(' + crabo + ')').className = '';
+	document.querySelector('#tabela tr:nth-child(' + lrabo + ') td:nth-child(' + crabo + ')').className = '';//apagando o bloco do rabo
 	
-	for (var i = blocosl.length - 1; i >= 1; i-- ) {
-		
+	for (var i = blocosl.length - 1; i >= 1; i-- ) {//pego o ultimo bloco e coloco na posição do da frente e assim por diante
 		blocosl[i] = blocosl[i - 1];
 		blocoscol[i] = blocoscol[i - 1];
 		var className = i == blocosl.length - 1 ? "snakeRabo" : "snakeCorpo";
 		document.querySelector('#tabela tr:nth-child(' + blocosl[i] + ') td:nth-child(' + blocoscol[i] + ')').className = className;
 	}
 	
-	direcaoatual = arraydirecoes[arraydirecoes.length - 1];
+	direcaoatual = arraydirecoes[arraydirecoes.length - 1];//indo pra ultima direção setada
 	
-	if (direcaoatual == 'D') {
+	if (direcaoatual == 'D') {//definindo a nova casa da cabeça
 		if (blocoscol[0] >= 20) {
 			blocoscol[0] = 1;
 		} else {
@@ -150,23 +149,23 @@ function anda() {
 		}
 	}
 	
-	if (arraydirecoes.length > 1){
+	if (arraydirecoes.length > 1){//arrancando as casas do array de direções após andar
 		arraydirecoes[arraydirecoes.length - 2] = arraydirecoes[arraydirecoes.length - 1]
 		arraydirecoes.splice(arraydirecoes.length - 1, 1);
 	}
 	
-	document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + blocoscol[0] + ')').className = 'snakeCabeca';
+	document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + blocoscol[0] + ')').className = 'snakeCabeca';//colorindo a cabeça na nova posição
 	
-	if (blocosl[0] == linhacomida && blocoscol[0] == colunacomida)
+	if (blocosl[0] == linhacomida && blocoscol[0] == colunacomida)//se a cabeça estiver encima da comida executa a função come
 		come();
 	
-	for (i = 1; i < blocoscol.length; i++) {
+	for (i = 1; i < blocoscol.length; i++) {//se a cabeça bater no corpo a snake morre
 		if (blocosl[0] == blocosl[i] && blocoscol[0] == blocoscol[i]) 
 			morre();
 	}
 }
 
-window.onkeydown = function(e) {
+window.onkeydown = function(e) {//mudando a direção da snake
 	var key = e.keyCode ? e.keyCode : e.which;
 	if (key == 39) {
 		if (direcaoatual !== 'E') {
