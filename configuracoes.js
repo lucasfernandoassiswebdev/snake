@@ -5,7 +5,7 @@ var linhacomida;
 var colunacomida;
 var direcaoatual;
 var interval;
-/*addagadgdaad*/
+
 $(document).ready( function() {
 	document.querySelector("#tabela").innerHTML = new Array(14).join("<tr>" + new Array(21).join("<td></td>") + "</tr>");
 		$('#botao').click( function() {
@@ -111,7 +111,7 @@ function anda() {
 	var lrabo = blocosl[blocosl.length - 1];
 	var crabo = blocoscol[blocoscol.length - 1];
 	
-	document.querySelector('#tabela tr:nth-child(' + lrabo + ') td:nth-child(' +crabo + ')').className = '';
+	document.querySelector('#tabela tr:nth-child(' + lrabo + ') td:nth-child(' + crabo + ')').className = '';
 	
 	for (var i = blocosl.length - 1; i >= 1; i-- ) {
 		blocosl[i] = blocosl[i - 1];
@@ -159,21 +159,27 @@ function anda() {
 
 window.onkeydown = function(e) {
 	var key = e.keyCode ? e.keyCode : e.which;
-    if (key == 39) {
-		if(direcaoatual !== 'E') {
+	if (key == 39) {
+		var batata = blocoscol[0] + 1
+		if (direcaoatual !== 'E' && document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + batata + ')').className == '') {
 			direcaoatual = 'D'
+		}else{
+			direcaoatual = 'E'
 		}
 	} else if (key == 37) {
-		if (direcaoatual !== 'D') {
+		var batata = blocoscol[0] - 1
+		if (direcaoatual !== 'D' && document.querySelector('#tabela tr:nth-child(' + blocosl[0] + ') td:nth-child(' + batata + ')').className == '') {
 			direcaoatual = 'E';
 		}
 	} else if (key == 38) {
-	   if (direcaoatual !== 'B') {
+		var batata = blocosl[0] - 1;
+		if (direcaoatual !== 'B'  && document.querySelector('#tabela tr:nth-child(' + batata + ') td:nth-child(' + blocoscol[0] + ')').className == '') {
 			direcaoatual = 'C';
-	   }
+		}
 	} else if (key == 40) {
-	   if (direcaoatual !== 'C') {
-		direcaoatual = 'B';
-	   }
+		var batata = blocosl[0] + 1;
+		if (direcaoatual !== 'C' && document.querySelector('#tabela tr:nth-child(' + batata + ') td:nth-child(' + blocoscol[0] + ')').className == '') {
+			direcaoatual = 'B';
+		}
 	}
 }
