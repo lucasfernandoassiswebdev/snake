@@ -7,7 +7,7 @@ var direcaoatual;
 var interval;
 var arraydirecoes = []
 
-$(document).ready( function() {
+function inicia() {
 	document.querySelector("#tabela").innerHTML = new Array(14).join("<tr>" + new Array(21).join("<td></td>") + "</tr>");//criando a tabela no html com 13 linhas e 20 colunas
 		$('#botao').click( function() {//mudando o estado do jogo e iniciando funções
 			if ($('#botao').html() == "Start") {
@@ -22,7 +22,7 @@ $(document).ready( function() {
 				startgame();
 			}
 		});
-});
+};
 			
 function startgame() {
 	blocoscol = [];//apagando a snake pra não bugar quando der restart
