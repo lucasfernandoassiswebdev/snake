@@ -81,10 +81,7 @@ function verificacomida(x,y) {//não deixa a comida nascer encima da snake
 function nascecomida() {//faz a comida nascer
     linhacomida = Math.floor((Math.random() * 13) + 1);
     colunacomida = Math.floor((Math.random() * 20) + 1);
-   
-	var array = document.querySelectorAll('.snakeCorpo, .snakeRabo, .snakeCabeca, .snakeComida');
-	
-	verificacomida(linhacomida,colunacomida);
+    verificacomida(linhacomida,colunacomida);
 };
 			
 function morre() {
