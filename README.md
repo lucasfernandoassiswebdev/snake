@@ -1,2 +1,2 @@
 # snake
-Snake feita usando javascript
+Game clássico Snake feito usando javascript
